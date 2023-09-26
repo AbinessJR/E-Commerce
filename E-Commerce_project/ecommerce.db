@@ -1,3 +1,7 @@
+import sqlite3
+
+# Define the SQL script as a string
+sql_script = """
 -- Create an SQLite database named ecommerce.db
 
 -- Create a table for products
@@ -61,3 +65,19 @@ VALUES (1, 1, 2);
 
 INSERT INTO Sales (product_id, customer_id, sale_date, sale_amount)
 VALUES (1, 1, '2023-09-26', 100.0);
+"""
+
+# Connect to the SQLite database file (create it if it doesn't exist)
+conn = sqlite3.connect('ecommerce.db')
+
+# Create a cursor object to execute SQL commands
+cursor = conn.cursor()
+
+# Execute the SQL script to create tables and populate data
+cursor.executescript(sql_script)
+
+# Commit the changes and close the database connection
+conn.commit()
+conn.close()
+
+print("ecommerce.db created and populated with sample data.")
