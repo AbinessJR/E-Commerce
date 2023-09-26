@@ -1,0 +1,63 @@
+-- Create an SQLite database named ecommerce.db
+
+-- Create a table for products
+CREATE TABLE Products (
+    product_id INTEGER PRIMARY KEY,
+    product_name TEXT NOT NULL,
+    description TEXT,
+    price REAL,
+    inventory_quantity INTEGER
+);
+
+-- Create a table for customers
+CREATE TABLE Customers (
+    customer_id INTEGER PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL
+);
+
+-- Create a table for orders
+CREATE TABLE Orders (
+    order_id INTEGER PRIMARY KEY,
+    order_date DATE NOT NULL,
+    customer_id INTEGER,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+-- Create a table for order items (connecting orders and products)
+CREATE TABLE OrderItems (
+    order_item_id INTEGER PRIMARY KEY,
+    order_id INTEGER,
+    product_id INTEGER,
+    quantity INTEGER,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+-- Create a table for sales transactions
+CREATE TABLE Sales (
+    sale_id INTEGER PRIMARY KEY,
+    product_id INTEGER,
+    customer_id INTEGER,
+    sale_date DATE NOT NULL,
+    sale_amount REAL NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id),
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+-- Insert sample data (you can add more data as needed)
+INSERT INTO Products (product_name, description, price, inventory_quantity)
+VALUES ('Product A', 'Description for Product A', 50.0, 100);
+
+INSERT INTO Customers (first_name, last_name, email)
+VALUES ('John', 'Doe', 'john.doe@example.com');
+
+INSERT INTO Orders (order_date, customer_id)
+VALUES ('2023-09-26', 1);
+
+INSERT INTO OrderItems (order_id, product_id, quantity)
+VALUES (1, 1, 2);
+
+INSERT INTO Sales (product_id, customer_id, sale_date, sale_amount)
+VALUES (1, 1, '2023-09-26', 100.0);
